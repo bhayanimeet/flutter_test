@@ -19,6 +19,7 @@ class _MobileState extends State<Mobile> {
       'price2': "₹ 24,999",
       'value': 23499,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/samsung.png',
@@ -28,6 +29,7 @@ class _MobileState extends State<Mobile> {
       'price2': '₹ 1,31,999',
       'value': 109999,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/oneplus.png',
@@ -37,6 +39,7 @@ class _MobileState extends State<Mobile> {
       'price2': "₹ 34,999",
       'value': 28499,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/oppo.png',
@@ -46,6 +49,7 @@ class _MobileState extends State<Mobile> {
       'price2': '₹ 33,499',
       'value': 30000,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/iphone.png',
@@ -55,6 +59,7 @@ class _MobileState extends State<Mobile> {
       'price2': "₹ 1,49,999",
       'value': 23499,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/iqoo.png',
@@ -64,6 +69,7 @@ class _MobileState extends State<Mobile> {
       'price2': '₹ 15,999',
       'value': 13499,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/redmi.png',
@@ -73,6 +79,7 @@ class _MobileState extends State<Mobile> {
       'price2': "₹ 34,999",
       'value': 28499,
       'count': 0,
+      'var': false,
     },
   ];
 
@@ -91,13 +98,19 @@ class _MobileState extends State<Mobile> {
               controller: Global.text,
               onSubmitted: (val) async {
                 Global.title = val;
-                if (Global.title == "phone" || Global.title == "Phone" || Global.title == "mobile" || Global.title == "Mobile") {
+                if (Global.title == "phone" ||
+                    Global.title == "Phone" ||
+                    Global.title == "mobile" ||
+                    Global.title == "Mobile") {
                   Navigator.pushNamed(context, 'mobile');
-                } else if (Global.title == "fashion" || Global.title == "Fashion") {
+                } else if (Global.title == "fashion" ||
+                    Global.title == "Fashion") {
                   Navigator.pushNamed(context, 'fashion');
-                } else if (Global.title == "furniture" || Global.title == "Furniture") {
+                } else if (Global.title == "furniture" ||
+                    Global.title == "Furniture") {
                   Navigator.pushNamed(context, 'furniture');
-                } else if (Global.title == "grocery" || Global.title == "Grocery") {
+                } else if (Global.title == "grocery" ||
+                    Global.title == "Grocery") {
                   Navigator.pushNamed(context, 'grocery');
                 } else {
                   Navigator.pushNamed(context, 'nothing');
@@ -137,7 +150,7 @@ class _MobileState extends State<Mobile> {
           children: [
             const SizedBox(height: 15),
             ...myMobileList.map(
-                  (e) => Container(
+              (e) => Container(
                 height: MediaQuery.of(context).size.height * 0.26,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.white,
@@ -169,47 +182,57 @@ class _MobileState extends State<Mobile> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: GestureDetector(
-                                    onTap: () async {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: GestureDetector(
+                                    onTap: () {
+                                      if(e['var']==false){
+                                        e['var'] = true;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                Global.favIcon = Icons.favorite;
-                                                Global.homeIcon = Icons.home_outlined;
-                                                Global.home = Colors.black;
-                                                Global.fav = Colors.white;
-                                                Navigator.pushNamed(context, 'fav');
-                                              });
-                                            },child: const Text("Added to favorite...")),
-                                        backgroundColor: Colors.blue,
-                                        behavior: SnackBarBehavior.floating,
-                                      ));
-                                      Global.info = e['title'];
-                                      Global.discount = e['price'];
-                                      Global.price = e['price2'];
-                                      Global.link = e['image'];
-                                      Global.name = e['name'];
-                                      setState(() {
-                                        Map<String, dynamic> myMap = {
-                                          'info': Global.info,
-                                          'discount': Global.discount,
-                                          'price': Global.price,
-                                          'link': Global.link,
-                                          'name': Global.name,
-                                        };
-                                        Global.myLikedItem.addAll([myMap]);
-                                      });
+                                              Navigator.pushNamed(context,'fav');
+                                            },
+                                            child: const Text("Added to favorite..."),
+                                          ),
+                                          backgroundColor: Colors.blue,
+                                          behavior: SnackBarBehavior.floating,
+                                        ),);
+                                        Global.info = e['title'];
+                                        Global.discount = e['price'];
+                                        Global.price = e['price2'];
+                                        Global.link = e['image'];
+                                        Global.name = e['name'];
+                                        setState(() {
+                                          Map<String, dynamic> myMap = {
+                                            'info': Global.info,
+                                            'discount': Global.discount,
+                                            'price': Global.price,
+                                            'link': Global.link,
+                                            'name': Global.name,
+                                          };
+                                          Global.myLikedItem.addAll([myMap]);
+                                        });
+                                      }
+                                      else if (e['var'] == true) {
+                                        e['var'] = false;
+                                      }
                                     },
-                                    child: const Icon(Icons.favorite_border,
-                                        color: Colors.black),
+                                    child: (e['var'] == false)
+                                        ? const Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.black,
+                                          )
+                                        : const Icon(
+                                            Icons.favorite,
+                                            color: Colors.pink,
+                                          ),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.center,
                                   child: Image.asset(
                                     e['image'],
-                                    height: MediaQuery.of(context).size.height * 0.18,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.18,
                                   ),
                                 ),
                               ],
@@ -239,7 +262,8 @@ class _MobileState extends State<Mobile> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     e['price'].toString(),
@@ -269,14 +293,12 @@ class _MobileState extends State<Mobile> {
                                       content: GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              Global.cartIcon = Icons.shopping_cart;
-                                              Global.homeIcon = Icons.home_outlined;
-                                              Global.home = Colors.black;
-                                              Global.cart = Colors.white;
-                                              Navigator.pushNamed(context, 'cart');
+                                              Navigator.pushNamed(
+                                                  context, 'cart');
                                             });
                                           },
-                                          child: const Text("Added to Cart...")),
+                                          child:
+                                              const Text("Added to Cart...")),
                                       backgroundColor: Colors.blue,
                                       behavior: SnackBarBehavior.floating,
                                     ));

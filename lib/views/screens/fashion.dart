@@ -98,13 +98,19 @@ class _FashionState extends State<Fashion> {
               controller: Global.text,
               onSubmitted: (val) async {
                 Global.title = val;
-                if (Global.title == "phone" || Global.title == "Phone" || Global.title == "mobile" || Global.title == "Mobile") {
+                if (Global.title == "phone" ||
+                    Global.title == "Phone" ||
+                    Global.title == "mobile" ||
+                    Global.title == "Mobile") {
                   Navigator.pushNamed(context, 'mobile');
-                } else if (Global.title == "fashion" || Global.title == "Fashion") {
+                } else if (Global.title == "fashion" ||
+                    Global.title == "Fashion") {
                   Navigator.pushNamed(context, 'fashion');
-                } else if (Global.title == "furniture" || Global.title == "Furniture") {
+                } else if (Global.title == "furniture" ||
+                    Global.title == "Furniture") {
                   Navigator.pushNamed(context, 'furniture');
-                } else if (Global.title == "grocery" || Global.title == "Grocery") {
+                } else if (Global.title == "grocery" ||
+                    Global.title == "Grocery") {
                   Navigator.pushNamed(context, 'grocery');
                 } else {
                   Navigator.pushNamed(context, 'nothing');
@@ -144,7 +150,7 @@ class _FashionState extends State<Fashion> {
           children: [
             const SizedBox(height: 15),
             ...myFashionList.map(
-                  (e) => Container(
+              (e) => Container(
                 height: MediaQuery.of(context).size.height * 0.27,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.white,
@@ -169,55 +175,64 @@ class _FashionState extends State<Fashion> {
                           width: MediaQuery.of(context).size.width / 2.4,
                           color: Colors.grey.shade50,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 8,right: 8),
+                            padding: const EdgeInsets.only(left: 8, right: 8),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Container(
-                                  padding: const EdgeInsets.only(top: 5),
+                                Align(
                                   alignment: Alignment.centerRight,
                                   child: GestureDetector(
-                                    onTap: () async {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: GestureDetector(
+                                    onTap: () {
+                                      if(e['var']==false){
+                                        e['var'] = true;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: GestureDetector(
                                             onTap: () {
-                                              setState(() {
-                                                Global.favIcon = Icons.favorite;
-                                                Global.homeIcon = Icons.home_outlined;
-                                                Global.home = Colors.black;
-                                                Global.fav = Colors.white;
-                                                Navigator.pushNamed(context, 'fav');
-                                              });
-                                            },child: const Text("Added to favorite...")),
-                                        backgroundColor: Colors.blue,
-                                        behavior: SnackBarBehavior.floating,
-                                      ));
-                                      Global.info = e['title'];
-                                      Global.discount = e['price'];
-                                      Global.price = e['price2'];
-                                      Global.link = e['image'];
-                                      Global.name = e['name'];
-                                      setState(() {
-                                        Map<String, dynamic> myMap = {
-                                          'info': Global.info,
-                                          'discount': Global.discount,
-                                          'price': Global.price,
-                                          'link': Global.link,
-                                          'name': Global.name,
-                                        };
-                                        Global.myLikedItem.addAll([myMap]);
-                                      });
+                                              Navigator.pushNamed(context,'fav');
+                                            },
+                                            child: const Text("Added to favorite..."),
+                                          ),
+                                          backgroundColor: Colors.blue,
+                                          behavior: SnackBarBehavior.floating,
+                                        ),);
+                                        Global.info = e['title'];
+                                        Global.discount = e['price'];
+                                        Global.price = e['price2'];
+                                        Global.link = e['image'];
+                                        Global.name = e['name'];
+                                        setState(() {
+                                          Map<String, dynamic> myMap = {
+                                            'info': Global.info,
+                                            'discount': Global.discount,
+                                            'price': Global.price,
+                                            'link': Global.link,
+                                            'name': Global.name,
+                                          };
+                                          Global.myLikedItem.addAll([myMap]);
+                                        });
+                                      }
+                                      else if (e['var'] == true) {
+                                        e['var'] = false;
+                                      }
                                     },
-                                    child: const Icon(Icons.favorite_border,
-                                        color: Colors.black),
+                                    child: (e['var'] == false)
+                                        ? const Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.black,
+                                          )
+                                        : const Icon(
+                                            Icons.favorite,
+                                            color: Colors.pink,
+                                          ),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   child: Image.asset(
                                     e['image'],
-                                    height: MediaQuery.of(context).size.height * 0.2,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.2,
                                   ),
                                 ),
                               ],
@@ -247,7 +262,8 @@ class _FashionState extends State<Fashion> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     e['price'].toString(),
@@ -272,23 +288,20 @@ class _FashionState extends State<Fashion> {
                                 alignment: Alignment.centerRight,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  Global.cartIcon = Icons.shopping_cart;
-                                                  Global.homeIcon = Icons.home_outlined;
-                                                  Global.home = Colors.black;
-                                                  Global.cart = Colors.white;
-                                                  Navigator.pushNamed(context, 'cart');
-                                                });
-                                              },
-                                              child:
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              Navigator.pushNamed(
+                                                  context, 'cart');
+                                            });
+                                          },
+                                          child:
                                               const Text("Added to Cart...")),
-                                          backgroundColor: Colors.blue,
-                                          behavior: SnackBarBehavior.floating,
-                                        ));
+                                      backgroundColor: Colors.blue,
+                                      behavior: SnackBarBehavior.floating,
+                                    ));
                                     Global.info = e['title'];
                                     Global.discount = e['price'];
                                     Global.price = e['price2'];

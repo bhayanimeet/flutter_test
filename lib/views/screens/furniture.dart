@@ -20,6 +20,7 @@ class _FurnitureState extends State<Furniture> {
       'price2': '₹ 24,999',
       'value': 23499,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/table.png',
@@ -29,6 +30,7 @@ class _FurnitureState extends State<Furniture> {
       'price2': '₹ 1,31,999',
       'value': 109999,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/chair.png',
@@ -38,6 +40,7 @@ class _FurnitureState extends State<Furniture> {
       'price2': '₹ 1,599',
       'value': 1299,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/dinning.png',
@@ -47,6 +50,7 @@ class _FurnitureState extends State<Furniture> {
       'price2': '₹ 16,499',
       'value': 14999,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/bed.png',
@@ -56,6 +60,7 @@ class _FurnitureState extends State<Furniture> {
       'price2': "₹ 24,999",
       'value': 23499,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/tvpoint.png',
@@ -65,6 +70,7 @@ class _FurnitureState extends State<Furniture> {
       'price2': '₹ 26,999',
       'value': 24499,
       'count': 0,
+      'var': false,
     },
     {
       'image': 'assets/images/chair2.png',
@@ -74,6 +80,7 @@ class _FurnitureState extends State<Furniture> {
       'price2': "₹ 2,180",
       'value': 2000,
       'count': 0,
+      'var': false,
     },
   ];
   @override
@@ -169,39 +176,49 @@ class _FurnitureState extends State<Furniture> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: GestureDetector(
-                                    onTap: () async {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                Global.favIcon = Icons.favorite;
-                                                Global.homeIcon = Icons.home_outlined;
-                                                Global.home = Colors.black;
-                                                Global.fav = Colors.white;
-                                                Navigator.pushNamed(context, 'fav');
-                                              });
-                                            },child: const Text("Added to favorite...")),
-                                        backgroundColor: Colors.blue,
-                                        behavior: SnackBarBehavior.floating,
-                                      ));
-                                      Global.info = e['title'];
-                                      Global.discount = e['price'];
-                                      Global.price = e['price2'];
-                                      Global.link = e['image'];
-                                      Global.name = e['name'];
-                                      setState(() {
-                                        Map<String, dynamic> myMap = {
-                                          'info': Global.info,
-                                          'discount': Global.discount,
-                                          'price': Global.price,
-                                          'link': Global.link,
-                                          'name': Global.name,
-                                        };
-                                        Global.myLikedItem.addAll([myMap]);
-                                      });
+                                    onTap: () {
+                                      if(e['var']==false){
+                                        e['var'] = true;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  Navigator.pushNamed(context, 'fav');
+                                                });
+                                              },child: const Text("Added to favorite...")),
+                                          backgroundColor: Colors.blue,
+                                          behavior: SnackBarBehavior.floating,
+                                        ));
+                                        Global.info = e['title'];
+                                        Global.discount = e['price'];
+                                        Global.price = e['price2'];
+                                        Global.link = e['image'];
+                                        Global.name = e['name'];
+                                        setState(() {
+                                          Map<String, dynamic> myMap = {
+                                            'info': Global.info,
+                                            'discount': Global.discount,
+                                            'price': Global.price,
+                                            'link': Global.link,
+                                            'name': Global.name,
+                                          };
+                                          Global.myLikedItem.addAll([myMap]);
+                                        });
+                                      }
+                                      else if(e['var']==true){
+                                        e['var'] = false;
+                                      }
                                     },
-                                    child: const Icon(Icons.favorite_border, color: Colors.black),
+                                    child: (e['var'] == false)
+                                        ? const Icon(
+                                      Icons.favorite_border,
+                                      color: Colors.black,
+                                    )
+                                        : const Icon(
+                                      Icons.favorite,
+                                      color: Colors.pink,
+                                    ),
                                   ),
                                 ),
                                 Align(
@@ -269,10 +286,6 @@ class _FurnitureState extends State<Furniture> {
                                       content: GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              Global.cartIcon = Icons.shopping_cart;
-                                              Global.homeIcon = Icons.home_outlined;
-                                              Global.home = Colors.black;
-                                              Global.cart = Colors.white;
                                               Navigator.pushNamed(context, 'cart');
                                             });
                                           },
